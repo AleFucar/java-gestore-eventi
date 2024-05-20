@@ -3,50 +3,75 @@ package it.fucarino;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Iterator;
 import java.util.Locale;
 
 public class Evento {
 
 	private String titolo;
-	private LocalDateTime data; //data odierna
+	private LocalDateTime data = LocalDateTime.now(); //data odierna
 	private LocalDateTime dataEvento;
 	private int numPostiTot = 5;
 	private int postiPrenotati = 0;
-
-
-
+	
+	
 	public Evento() {
-	this.data = LocalDateTime.now();
+		
 	}
 	
+	public Evento(String Titolo) {
+		
+	}
+	
+	////////////////////////////
+	/////Getter and setter/////
+	//////////////////////////
+	
+	public LocalDateTime getData() {
+		return data;
+	}
+	
+	public String getDataEvento() {
+		return dataEvento.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm", Locale.ITALY));
+	}
+	
+	public void setDataEvento(LocalDateTime dataEvento) {
+		this.dataEvento = dataEvento;
+	}
+	
+	public String getTitolo() {
+		return titolo;
+	}
+	
+	public void setTitolo(String titolo) {
+		this.titolo = titolo;
+	}
+	
+	public int getNumPostiTot() {
+		return numPostiTot;
+	}
+	
+	public int getPostiPrenotati() {
+		return postiPrenotati;
+	}
+	
+	@Override
+	public String toString() {
+		
+		return  getDataEvento() + " - " + titolo;
+	}
 	
 
 	
 	
-	public void controlloData(LocalDateTime dataInput) {
-		
-		if (dataInput.isBefore(data)) {
-			System.out.println("\nLa data inserità è già passata.");
-		}
-	}
 	
 	
 	public void prenota(int postiPrenotati, LocalDateTime dataInput) {
 		
 		this.postiPrenotati = postiPrenotati;
-		
-		if (dataInput.isBefore(data)) {
-			System.out.println("La data inserità è già passata.\n");
-			
-		} else if (postiPrenotati > numPostiTot || numPostiTot == 0) {
-			System.out.println("Non ci sono abbastanza posti disponibili, ci dispiace!");
-		 }else {
-			numPostiTot -= postiPrenotati ;
-			System.out.println("Prenotazione avvenuta con successo.");
-			System.out.println("Posti prenotati: " + postiPrenotati + "\n" + "Posti rimanenti: " + numPostiTot);
-		}
+
+				numPostiTot -= postiPrenotati;
 	}
-	
 	
 	
 	public void disdici(int postiPrenotati, int postiDisdetti) {
@@ -65,38 +90,6 @@ public class Evento {
 		}
 	}
 	
-	////////////////////////////
-	/////Getter and setter/////
-	//////////////////////////
-	public String getDataEvento() {
-		return dataEvento.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm", Locale.ITALY));
-	}
-	
-	public void setDataEvento(LocalDateTime dataEvento) {
-		this.dataEvento = dataEvento;
-	}
-	
-	public String getTitolo() {
-		return titolo;
-	}
-
-	public void setTitolo(String titolo) {
-		this.titolo = titolo;
-	}
-
-	public int getNumPostiTot() {
-		return numPostiTot;
-	}
-
-	public int getPostiPrenotati() {
-		return postiPrenotati;
-	}
-
-	@Override
-	public String toString() {
-		
-		return  getDataEvento() + " - " + titolo;
-	}
 
 
 	
