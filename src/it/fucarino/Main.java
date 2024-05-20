@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class Main {
 public static void main(String[] args) {
 	
-	Evento evento1 = new Evento();
+	Evento evento1 = new Concerto(22.50);
 	
 	Scanner scan = new Scanner(System.in);
 	
@@ -35,6 +35,7 @@ public static void main(String[] args) {
 		int minuti = scan.nextInt();
 		scan.nextLine();
 		
+		
 		LocalDateTime dataInput = LocalDateTime.of(anno, mese, giorno, ora, minuti);
 		evento1.setDataEvento(dataInput);
 
@@ -47,6 +48,7 @@ public static void main(String[] args) {
 			String richiestaPrenotazionePostiInput = scan.nextLine();	
 			if (richiestaPrenotazionePostiInput.equals("Si") || richiestaPrenotazionePostiInput.equals("sI") || richiestaPrenotazionePostiInput.equals("SI") || richiestaPrenotazionePostiInput.equals("si")) {
 				
+				System.out.println("Ci sono " + evento1.getNumPostiTot() + " posti rimanenti.");
 				System.out.println("Quanti posti vuole prenotare?");
 				int numeroPrenotazioni = scan.nextInt();
 				scan.nextLine();

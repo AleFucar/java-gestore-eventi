@@ -1,37 +1,34 @@
 package it.fucarino;
 
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 
 public class Concerto extends Evento {
-
 	
-	LocalTime ora;
-
-
 	double prezzo;
 	
 	
-	public Concerto(LocalTime ora, double prezzo) {
-		this.ora = ora;
+	public Concerto(double prezzo) {
 		this.prezzo = prezzo;
 	}
 	
-	public LocalTime getOra() {
-		return ora;
+	public Concerto( double prezzo, String titolo, LocalDateTime data, LocalDateTime dataEvento, int postiPrenotati) {
+		super(titolo, data, dataEvento, postiPrenotati);
+		this.prezzo = prezzo;
+		
 	}
-	
-	
-	public void setOra(LocalTime ora) {
-		this.ora = ora;
-	}
-	
-	
-	public double getPrezzo() {
-		return prezzo;
+		
+	public String getPrezzo() {
+		return prezzo + "€";
 	}
 	
 	
 	public void setPrezzo(double prezzo) {
 		this.prezzo = prezzo;
+	}
+	
+	@Override
+	public String toString() {
+		
+		return super.toString() + " - " + getPrezzo();
 	}
 }

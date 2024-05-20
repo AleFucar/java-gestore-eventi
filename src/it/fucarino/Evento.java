@@ -19,8 +19,11 @@ public class Evento {
 		
 	}
 	
-	public Evento(String Titolo) {
-		
+	public Evento(String titolo, LocalDateTime data, LocalDateTime dataEvento, int postiPrenotati) {
+		this.titolo = titolo;
+		this.data = data;
+		this.dataEvento = dataEvento;
+		this.postiPrenotati = postiPrenotati;
 	}
 	
 	////////////////////////////
