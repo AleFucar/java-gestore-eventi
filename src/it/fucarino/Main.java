@@ -1,91 +1,51 @@
 package it.fucarino;
 
-
 import java.time.LocalDateTime;
 import java.util.Scanner;
 
 public class Main {
-public static void main(String[] args) {
-	
-	Evento evento1 = new Concerto(22.50);
-	
-	Scanner scan = new Scanner(System.in);
-	
-	
+	public static void main(String[] args) {
 
-	for (int i=0 ; ; i++) {
+		Scanner scan = new Scanner(System.in);
 		
-		System.out.println("Ciao, inserisci il titolo dell'evento");
-		String titolo = scan.nextLine();
-		evento1.setTitolo(titolo);
+		
+		ProgrammEventi listaEventi = new ProgrammEventi();
+		
+		Evento concerto = new Concerto(20.50, "Angelina Mango", LocalDateTime.of(2025, 6, 12, 22, 30), 1050);
+		listaEventi.addEvento("Angelina Mango", concerto);
+		Evento concerto1 = new Concerto(50.00, "Marracash", LocalDateTime.of(2026, 3, 18, 21, 00), 3000);
+		listaEventi.addEvento("Marracash" , concerto1);
+		Evento concerto2 = new Concerto(35.60, "Annalisa", LocalDateTime.of(2029, 02, 5, 18, 30), 2000);
+		listaEventi.addEvento("Annalisa", concerto2);
+		Evento concerto3 = new Concerto(70.00, "Jova-Beach-Party", LocalDateTime.of(2024, 8, 16, 15, 00), 9000);
+		listaEventi.addEvento("Jova-Beach-Party", concerto3);
+		Evento concerto4 = new Concerto(40.00, "Irama", LocalDateTime.of(2023, 6, 12, 22, 30), 1050);
+		listaEventi.addEvento("Irama", concerto4);
+		Evento concerto5 = new Concerto(16.30, "Mahmood", LocalDateTime.of(2022, 3, 18, 21, 00), 3000);
+		listaEventi.addEvento("Mahmood", concerto5);
+		Evento concerto6 = new Concerto(25.00, "Calcutta", LocalDateTime.of(2021, 02, 5, 18, 30), 2000);
+		listaEventi.addEvento("Calcutta", concerto6);
+		Evento concerto7 = new Concerto(27.50, "Alfa", LocalDateTime.of(2020, 8, 16, 15, 00), 9000);
+		listaEventi.addEvento("Alfa", concerto7);
+		
+		
+		for (int i = 0;; i++) {
+			
+			System.out.println("Benvenuto, vuole vedere la nostra lista eventi?");
+			String inizio = scan.nextLine();
+			
+			if (inizio.equals("Si") || inizio.equals("SI") || inizio.equals("si")) {
+				
+				listaEventi.stampaTitoliEventi();
+				
+			} else {
 
-		System.out.println("Ciao, inserisci il giorno dell'evento(Numero)");
-		int giorno = scan.nextInt();
-		
-		System.out.println("Ciao, inserisci il mese dell'evento(Numero)");
-		int mese = scan.nextInt();
-		
-		System.out.println("Ciao, inserisci l'anno dell'evento(Numero)");
-		int anno = scan.nextInt();
-		
-		System.out.println("Ciao, inserisci l'ora dell'evento(Numero)");
-		int ora = scan.nextInt();
-		
-		System.out.println("Ciao, inserisci i minuti dell'evento(Numero)");
-		int minuti = scan.nextInt();
-		scan.nextLine();
-		
-		
-		LocalDateTime dataInput = LocalDateTime.of(anno, mese, giorno, ora, minuti);
-		evento1.setDataEvento(dataInput);
-
-		if (dataInput.isBefore(evento1.getData())) {
-			System.out.println("\nLa data inserità è già passata.");
-			break;
-		} else {
-			System.out.println(evento1.toString());
-			System.out.println("\nVuole Prenotare i suoi posti?(RISPONDI CON SI O NO)\n");
-			String richiestaPrenotazionePostiInput = scan.nextLine();	
-			if (richiestaPrenotazionePostiInput.equals("Si") || richiestaPrenotazionePostiInput.equals("sI") || richiestaPrenotazionePostiInput.equals("SI") || richiestaPrenotazionePostiInput.equals("si")) {
-				
-				System.out.println("Ci sono " + evento1.getNumPostiTot() + " posti rimanenti.");
-				System.out.println("Quanti posti vuole prenotare?");
-				int numeroPrenotazioni = scan.nextInt();
-				scan.nextLine();
-				if (numeroPrenotazioni <= evento1.getNumPostiTot()) {
-					evento1.prenota(numeroPrenotazioni,  dataInput);
-					System.out.println("Prenotazione avvenuta con successo.");
-					System.out.println("Posti prenotati: " + numeroPrenotazioni + "\n" + "Posti rimanenti: " + evento1.getNumPostiTot());
-					
-				} else if (numeroPrenotazioni > evento1.getNumPostiTot() || evento1.getNumPostiTot() == 0) {
-					System.out.println("Non ci sono abbastanza posti disponibili, ci dispiace!\n");
-					System.out.println("Posti prenotati: " + evento1.getPostiPrenotati() + "\n" + "Posti rimanenti: " + evento1.getNumPostiTot());
-					break;
-				}else if(numeroPrenotazioni == 0) {
-					System.out.println("inserisci un numero maggiore di zero.");
-					break;
-				}
-				
-				
-				
-			}else if (richiestaPrenotazionePostiInput.equals("No") || richiestaPrenotazionePostiInput.equals("nO") || richiestaPrenotazionePostiInput.equals("NO") || richiestaPrenotazionePostiInput.equals("no")) {
-				System.out.println("Va bene, a presto!\n");
-				break;
 			}
 			
-			System.out.println("Vuole disdire i suoi posti? (RISPONDI CON SI O NO)");
-			String richiestaDisdiciPosti = scan.nextLine();
-			if (richiestaDisdiciPosti.equals("Si") || richiestaDisdiciPosti.equals("sI") || richiestaDisdiciPosti.equals("SI") || richiestaDisdiciPosti.equals("si")) {
-				System.out.println("Quanti posti vuole disdire?");
-				int numPostiDisdetti = scan.nextInt();
-				evento1.disdici(evento1.getPostiPrenotati(), numPostiDisdetti );
-				break;
-			}else {
-				System.out.println("Va bene, a presto!\n");
-				break;
-				}
-			}
+		}
+		
+		
+		
 		}
 	}
-}	
 

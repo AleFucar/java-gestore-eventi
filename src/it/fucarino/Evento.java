@@ -19,11 +19,11 @@ public class Evento {
 		
 	}
 	
-	public Evento(String titolo, LocalDateTime data, LocalDateTime dataEvento, int postiPrenotati) {
+	public Evento(String titolo, LocalDateTime dataEvento, int numPostiTot) {
 		this.titolo = titolo;
-		this.data = data;
 		this.dataEvento = dataEvento;
-		this.postiPrenotati = postiPrenotati;
+		this.numPostiTot = numPostiTot;
+		
 	}
 	
 	////////////////////////////
@@ -34,7 +34,13 @@ public class Evento {
 		return data;
 	}
 	
-	public String getDataEvento() {
+	
+	
+	public LocalDateTime getDataEvento() {
+		return dataEvento;
+	}
+
+	public String getDataEventoToString() {
 		return dataEvento.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm", Locale.ITALY));
 	}
 	
@@ -61,19 +67,24 @@ public class Evento {
 	@Override
 	public String toString() {
 		
-		return  getDataEvento() + " - " + titolo;
+		return  getDataEventoToString() + " - " + titolo;
 	}
 	
 
-	
-	
-	
-	
-	public void prenota(int postiPrenotati, LocalDateTime dataInput) {
-		
-		this.postiPrenotati = postiPrenotati;
 
-				numPostiTot -= postiPrenotati;
+	
+	
+	public boolean prenota(int postiPrenotati) {
+		
+		if (data.isAfter(getDataEvento())) {
+			System.out.println("La data di questo evento è passataaa.");
+			return true;
+		} else {
+			this.postiPrenotati = postiPrenotati;
+			numPostiTot -= postiPrenotati;
+			System.out.println( "Prenotazione effettuata con successo!" + "\nPosti prenotati: " + getPostiPrenotati() + "\n" + "Posti rimanenti: " + getNumPostiTot());
+			return false;
+		}
 	}
 	
 	
@@ -81,20 +92,21 @@ public class Evento {
 		
 		this.postiPrenotati = postiPrenotati;
 		
-		 if (postiPrenotati == 0) {
-			System.out.println("Non ci sono prenotazioni registrate a suo nome.");
-		}else if (postiPrenotati < postiDisdetti) {
-			System.out.println("Stai cercando di disdire più posti di quanti ne hai prenotati. \nI tuoi posti: " + postiPrenotati);
-		}else {
-			postiPrenotati -= postiDisdetti;
-			System.out.println("Hai disdetto " + postiDisdetti + " posti.");
-			System.out.println("Ti rimangono " + postiPrenotati + " posti prenotati.");
-			
+		
+		if (prenota(postiPrenotati) == true) {
+			System.out.println("Non puoi prenotare una data già avvenuta.");
+		} else {
+			if (postiPrenotati == 0) {
+				System.out.println("Non ci sono prenotazioni registrate a suo nome.");
+			}else if (postiPrenotati < postiDisdetti) {
+				System.out.println("Stai cercando di disdire più posti di quanti ne hai prenotati. \nI tuoi posti: " + postiPrenotati);
+			}else {
+				postiPrenotati -= postiDisdetti;
+				System.out.println("Hai disdetto " + postiDisdetti + " posti.");
+				System.out.println("Ti rimangono " + postiPrenotati + " posti prenotati.");
+				
+			}
 		}
 	}
-	
-
-
-	
 }
 

@@ -11,12 +11,16 @@ public class Concerto extends Evento {
 		this.prezzo = prezzo;
 	}
 	
-	public Concerto( double prezzo, String titolo, LocalDateTime data, LocalDateTime dataEvento, int postiPrenotati) {
-		super(titolo, data, dataEvento, postiPrenotati);
+	public Concerto( double prezzo, String titolo, LocalDateTime dataEvento, int postiDisponibili) {
+		super(titolo, dataEvento, postiDisponibili);
 		this.prezzo = prezzo;
 		
 	}
-		
+	
+	public String getTitoloString() {
+		return super.getTitolo();
+	}
+
 	public String getPrezzo() {
 		return prezzo + "€";
 	}
@@ -29,6 +33,6 @@ public class Concerto extends Evento {
 	@Override
 	public String toString() {
 		
-		return super.toString() + " - " + getPrezzo();
+		return super.toString() + " - " + "Posti disponibili: " + getNumPostiTot() + " - " + " Prezzo del biglietto unitario: " + getPrezzo() ;
 	}
 }
