@@ -19,6 +19,7 @@ public class Evento {
 		
 	}
 	
+	
 	public Evento(String titolo, LocalDateTime dataEvento, int numPostiTot) {
 		this.titolo = titolo;
 		this.dataEvento = dataEvento;
@@ -77,7 +78,7 @@ public class Evento {
 	public boolean prenota(int postiPrenotati) {
 		
 		if (data.isAfter(getDataEvento())) {
-			System.out.println("La data di questo evento è passataaa.");
+			System.out.println("La data di questo evento è passata.");
 			return true;
 		} else {
 			this.postiPrenotati = postiPrenotati;
