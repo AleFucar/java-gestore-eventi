@@ -2,7 +2,10 @@ package it.fucarino;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.chrono.ChronoLocalDate;
+import java.time.chrono.ChronoLocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Iterator;
 import java.util.Locale;
 import java.util.Scanner;
 import java.util.zip.ZipInputStream;
@@ -32,29 +35,92 @@ public class Main {
 		Evento concerto7 = new Concerto(27.50, "Alfa", LocalDateTime.of(2020, 8, 16, 15, 00), 9000);
 		listaEventi.addEvento(concerto7);
 		
-		int i = 0;
+
 		
-		for (i = 0; ;) {
+		for (int i = 0; ;) {
 			
-			System.out.println("\nBenvenuto, Ecco i nostri servizi:\n [1] Lista Eventi\n [2] Ricerca per data e ora\n [3] Aggiungi Evento\n [4] Svuota Lista ");
+			System.out.println("\nLista dei servizi:\n [1] Lista Eventi\n [2] Ricerca per data e ora\n [3] Aggiungi Evento\n [4] Svuota Lista ");
 			i = scan.nextInt();
 			
 			switch (i) {
 			case 1:
-				listaEventi.stampaTitoliEventi();
+				listaEventi.stampaEventi();
 				listaEventi.eventiTotali();
+				System.out.println(" Vuole prenotare dei biglietti?\n [1] SI\n [2] NO");
+				int prenota = scan.nextInt();		
+				
+				switch (prenota) {
+				case 1:
+					System.out.println(" Quale evento vuole prenotare? (Inserisci il numero Evento.)");
+					listaEventi.stampaTitoliEventi();
+					int numeroEvento = scan.nextInt();
+					if (listaEventi.prenotaEventoSelezionato(numeroEvento) == true) {
+						System.out.println(" Quanti posti vuole prenotare?");
+						int postiDaPrenotare = scan.nextInt();
+						listaEventi.prenota(postiDaPrenotare);
+					}
+					break;
+				case 2:
+					
+					break;
+					
+				}
+				
+				
+				int postiPrenotati = 0;
+				listaEventi.prenota(postiPrenotati);
 				break;
 
 			case 2:
-		        System.out.println("Inserisci la data e l'ora dell'evento (es. dd/MM/yyyy HH:mm): ");
-		        String dataInserita = scan.nextLine();
-		        scan.nextInt();
+		        System.out.println(" Inserisci il giorno dell'evento...");
+		        int giorno = scan.nextInt();
+		        System.out.println(" Inserisci il mese dell'evento...");
+		        int mese = scan.nextInt();
+		        System.out.println(" Inserisci l'anno dell'evento...");
+		        int anno = scan.nextInt();
+		        System.out.println(" Inserisci l'ora dell'evento (Solo le ore, non i minuti)..");
+		        int ore = scan.nextInt();
+		        System.out.println(" Inserisci i minuti dell'evento...");
+		        int minuti = scan.nextInt();
+		        LocalDateTime dataInserita = LocalDateTime.of(anno, mese, giorno, ore, minuti);
 		        listaEventi.ricercaEventData(dataInserita);
 				break;
 				
 			case 3:
-				
-				
+				System.out.println(" Inserisci il Titolo dell'evento...");
+				scan.nextLine();
+				String titoloInput = scan.nextLine();
+		        System.out.println(" Inserisci il giorno dell'evento...");
+		        int giornoInput = scan.nextInt();
+		        System.out.println(" Inserisci il mese dell'evento...");
+		        int meseInput = scan.nextInt();
+		        System.out.println(" Inserisci l'anno dell'evento...");
+		        int annoInput = scan.nextInt();
+		        System.out.println(" Inserisci l'ora dell'evento (Solo le ore, non i minuti)..");
+		        int oreInput = scan.nextInt();
+		        System.out.println(" Inserisci i minuti dell'evento...");
+		        int minutiInput = scan.nextInt();
+		        LocalDateTime dataInseritaInput = LocalDateTime.of(annoInput, meseInput, giornoInput, oreInput, minutiInput);
+		        listaEventi.controlloData(dataInseritaInput);
+		        if (listaEventi.controlloData(dataInseritaInput) == true) {
+					System.err.println("La data inserita è già passata.");
+					break;
+				}
+		        System.out.println(" Quanti posti sono disponibili per l'evento? (Solo numero)");
+		        int postiDisponibiliInput = scan.nextInt();
+		        if (postiDisponibiliInput < 1) {
+		        	System.err.println("Inserisci un numero positivo.");
+					break;
+				}
+		        System.out.println(" Quanto costerà il prezzo unitario del biglietto?");
+		        double prezzoInput = scan.nextDouble();
+		        if (prezzoInput < 1) {
+		        	System.err.println("Inserisci un numero positivo.");
+					break;
+				}
+				Evento eventoInput = new Concerto(prezzoInput, titoloInput, dataInseritaInput, postiDisponibiliInput);
+				listaEventi.addEvento(eventoInput);
+				System.out.println(" EVENTO AGGIUNTO CON SUCCESSO!");
 				break;
 			}
 			

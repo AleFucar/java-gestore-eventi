@@ -1,3 +1,4 @@
+
 package it.fucarino;
 
 import java.time.LocalDateTime;
@@ -13,6 +14,7 @@ public class Concerto extends Evento {
 	
 	public Concerto( double prezzo, String titolo, LocalDateTime dataEvento, int postiDisponibili) {
 		super(titolo, dataEvento, postiDisponibili);
+		super.getDataEvento();
 		this.prezzo = prezzo;
 		
 	}

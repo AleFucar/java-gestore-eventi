@@ -1,6 +1,7 @@
 package it.fucarino;
 
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Iterator;
@@ -11,7 +12,7 @@ public class Evento {
 	private String titolo;
 	private LocalDateTime data = LocalDateTime.now(); //data odierna
 	private LocalDateTime dataEvento;
-	private int numPostiTot = 5;
+	private int numPostiTot = 500;
 	private int postiPrenotati = 0;
 	
 	
@@ -36,10 +37,10 @@ public class Evento {
 	}
 	
 	
-	
 	public LocalDateTime getDataEvento() {
 		return dataEvento;
 	}
+	
 
 	public String getDataEventoToString() {
 		return dataEvento.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm", Locale.ITALY));
@@ -72,12 +73,17 @@ public class Evento {
 	}
 	
 
-
+	public boolean controlloData(LocalDateTime dataNuovoEvento) {
+		if (data.isAfter(dataNuovoEvento)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 	
 	
 	public boolean prenota(int postiPrenotati) {
-		
-		if (data.isAfter(getDataEvento())) {
+		if (controlloData(dataEvento) == true) {
 			System.out.println("La data di questo evento è passata.");
 			return true;
 		} else {
@@ -109,5 +115,8 @@ public class Evento {
 			}
 		}
 	}
+
+
+
 }
 
