@@ -12,14 +12,17 @@ public class Evento {
 	private String titolo;
 	private LocalDateTime data = LocalDateTime.now(); //data odierna
 	private LocalDateTime dataEvento;
-	private int numPostiTot = 500;
-	private int postiPrenotati = 0;
+	private int numPostiTot;
+	private int postiPrenotati;
 	
 	
 	public Evento() {
 		
 	}
 	
+	public Evento(int postiPrenotati) {
+		this.postiPrenotati = postiPrenotati;
+	}
 	
 	public Evento(String titolo, LocalDateTime dataEvento, int numPostiTot) {
 		this.titolo = titolo;
@@ -73,8 +76,8 @@ public class Evento {
 	}
 	
 
-	public boolean controlloData(LocalDateTime dataNuovoEvento) {
-		if (data.isAfter(dataNuovoEvento)) {
+	public boolean controlloData(LocalDateTime dataEvento) {
+		if (data.isAfter(dataEvento)) {
 			return true;
 		} else {
 			return false;
@@ -83,26 +86,21 @@ public class Evento {
 	
 	
 	public boolean prenota(int postiPrenotati) {
-		if (controlloData(dataEvento) == true) {
-			System.out.println("La data di questo evento è passata.");
-			return true;
-		} else {
+		this.postiPrenotati = postiPrenotati;
+		
+		if (postiPrenotati > numPostiTot) {
+			System.out.println(" Stai cercando di prenotare più posti di quanti ne siano disponibili");
+			return false;
+		}else {
 			this.postiPrenotati = postiPrenotati;
 			numPostiTot -= postiPrenotati;
 			System.out.println( "Prenotazione effettuata con successo!" + "\nPosti prenotati: " + getPostiPrenotati() + "\n" + "Posti rimanenti: " + getNumPostiTot());
-			return false;
+			return true;			
 		}
 	}
 	
 	
-	public void disdici(int postiPrenotati, int postiDisdetti) {
-		
-		this.postiPrenotati = postiPrenotati;
-		
-		
-		if (prenota(postiPrenotati) == true) {
-			System.out.println("Non puoi prenotare una data già avvenuta.");
-		} else {
+	public void disdici(int postiDisdetti) {
 			if (postiPrenotati == 0) {
 				System.out.println("Non ci sono prenotazioni registrate a suo nome.");
 			}else if (postiPrenotati < postiDisdetti) {
@@ -115,8 +113,4 @@ public class Evento {
 			}
 		}
 	}
-
-
-
-}
 

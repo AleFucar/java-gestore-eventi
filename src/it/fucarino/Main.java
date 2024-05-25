@@ -36,39 +36,37 @@ public class Main {
 		listaEventi.addEvento(concerto7);
 		
 
+		boolean fermaProgramma = false;
 		
-		for (int i = 0; ;) {
+		for (int i = 0; fermaProgramma == false ;) {
 			
-			System.out.println("\nLista dei servizi:\n [1] Lista Eventi\n [2] Ricerca per data e ora\n [3] Aggiungi Evento\n [4] Svuota Lista ");
+			System.out.println("\nLista dei servizi:\n [1] Lista Eventi\n [2] Ricerca per data e ora\n [3] Aggiungi Evento\n [4] Prenota Evento\n [5] Disdici Prenotazioni\n [6] Svuota Lista\n [0] Esci dal Programma  ");
 			i = scan.nextInt();
 			
 			switch (i) {
 			case 1:
-				listaEventi.stampaEventi();
-				listaEventi.eventiTotali();
-				System.out.println(" Vuole prenotare dei biglietti?\n [1] SI\n [2] NO");
-				int prenota = scan.nextInt();		
-				
-				switch (prenota) {
-				case 1:
-					System.out.println(" Quale evento vuole prenotare? (Inserisci il numero Evento.)");
-					listaEventi.stampaTitoliEventi();
-					int numeroEvento = scan.nextInt();
-					if (listaEventi.prenotaEventoSelezionato(numeroEvento) == true) {
-						System.out.println(" Quanti posti vuole prenotare?");
-						int postiDaPrenotare = scan.nextInt();
-						listaEventi.prenota(postiDaPrenotare);
+				if (listaEventi.eventiTotali() == true) {
+					listaEventi.ordinaDate();
+					System.out.println(" Vuole prenotare dei biglietti?\n [1] SI\n [2] NO");
+					int prenota = scan.nextInt();		
+					
+					switch (prenota) {
+					case 1:
+						System.out.println(" Quale evento vuole prenotare? (Inserisci il numero Evento.)");
+						listaEventi.stampaTitoliEventi();
+						int numeroEvento = scan.nextInt();
+						if (listaEventi.selezionaEvento(numeroEvento) == true) {
+							System.out.println(" Quanti posti vuole prenotare?");
+							int postiDaPrenotare = scan.nextInt();
+							listaEventi.prenotaEventoSelezionato(postiDaPrenotare, numeroEvento);
+							break;
+						}
+					case 2:
+						break;
+						
 					}
-					break;
-				case 2:
-					
-					break;
-					
 				}
 				
-				
-				int postiPrenotati = 0;
-				listaEventi.prenota(postiPrenotati);
 				break;
 
 			case 2:
@@ -122,9 +120,50 @@ public class Main {
 				listaEventi.addEvento(eventoInput);
 				System.out.println(" EVENTO AGGIUNTO CON SUCCESSO!");
 				break;
-			}
-			
+				
+			case 4:
+				if (listaEventi.eventiTotali() == true) {
+					
+					System.out.println(" Quale evento vuole prenotare? (Inserisci il numero Evento.)");
+					listaEventi.stampaTitoliEventi();
+					int numeroEvento = scan.nextInt();
+					boolean sceltaEvento = listaEventi.selezionaEvento(numeroEvento);
+					if (sceltaEvento == true) {
+						System.out.println(" Quanti posti vuole prenotare?");
+						int postiDaPrenotare = scan.nextInt();
+						listaEventi.prenotaEventoSelezionato(postiDaPrenotare, numeroEvento);
+						break;
+					}
+				}
+				break;
+				
+			case 5:
+				if (listaEventi.eventiTotali() == true) {
+					
+					System.out.println(" Quale evento vuole disdire? (Inserisci il numero Evento.)");
+					listaEventi.stampaTitoliEventi();
+					int numeroEventoDaDisdire = scan.nextInt();
+					boolean sceltaEventoDaDisdire = listaEventi.selezionaEvento(numeroEventoDaDisdire);
+					if (sceltaEventoDaDisdire == true) {
+						System.out.println(" Quanti posti vuole disdire?");
+						int postiDaDisdire = scan.nextInt();
+						listaEventi.disdiciEventoSelezionato(postiDaDisdire, numeroEventoDaDisdire);;
+						break;
+					}
+				}
+				break;
+			case 6:
+				listaEventi.svuotaLista();
+				System.out.println("Lista svuotata con successo!");
+				break;
+				
+			case 0:
+				fermaProgramma = true;
+				System.out.println("Arrivederci!");
+				break;
 			}
 		}
+		
 	}
+}
 
