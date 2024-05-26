@@ -1,18 +1,19 @@
 package it.fucarino;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.chrono.ChronoLocalDate;
-import java.time.chrono.ChronoLocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Iterator;
-import java.util.Locale;
 import java.util.Scanner;
-import java.util.zip.ZipInputStream;
 
 public class Main {
 	public static void main(String[] args) {
 
+		
+		final String ANSI_GREEN = "\u001B[32m";
+		final String ANSI_RED = "\u001B[31m";
+		final String ANSI_CYAN = "\u001B[36m";
+		final String ANSI_RESET = "\u001B[0m";
+		final String ANSI_YELLOW = "\u001B[33m";
+		
 		Scanner scan = new Scanner(System.in);
 		
 		
@@ -40,23 +41,25 @@ public class Main {
 		
 		for (int i = 0; fermaProgramma == false ;) {
 			
-			System.out.println("\nLista dei servizi:\n [1] Lista Eventi\n [2] Ricerca per data e ora\n [3] Aggiungi Evento\n [4] Prenota Evento\n [5] Disdici Prenotazioni\n [6] Svuota Lista\n [0] Esci dal Programma  ");
+			listaEventi.getTitoloProgramma();
+			
+			System.out.println(ANSI_GREEN + "\nLista dei servizi:\n" + ANSI_RESET + ANSI_CYAN + " [1] Lista Eventi\n [2] Ricerca per data e ora\n [3] Aggiungi Evento\n [4] Prenota Evento\n [5] Disdici Prenotazioni\n [6] Svuota Lista\n [0] Esci dal Programma  " + ANSI_RESET);
 			i = scan.nextInt();
 			
 			switch (i) {
 			case 1:
 				if (listaEventi.eventiTotali() == true) {
 					listaEventi.ordinaDate();
-					System.out.println(" Vuole prenotare dei biglietti?\n [1] SI\n [2] NO");
+					System.out.println(ANSI_GREEN + " Vuole prenotare dei biglietti?\n" + ANSI_CYAN + " [1] SI\n [2] NO" + ANSI_RESET);
 					int prenota = scan.nextInt();		
 					
 					switch (prenota) {
 					case 1:
-						System.out.println(" Quale evento vuole prenotare? (Inserisci il numero Evento.)");
+						System.out.println(ANSI_GREEN + " Quale evento vuole prenotare? (Inserisci il numero Evento.)" + ANSI_RESET);
 						listaEventi.stampaTitoliEventi();
 						int numeroEvento = scan.nextInt();
 						if (listaEventi.selezionaEvento(numeroEvento) == true) {
-							System.out.println(" Quanti posti vuole prenotare?");
+							System.out.println(ANSI_GREEN + " Quanti posti vuole prenotare?" + ANSI_RESET);
 							int postiDaPrenotare = scan.nextInt();
 							listaEventi.prenotaEventoSelezionato(postiDaPrenotare, numeroEvento);
 							break;
@@ -70,67 +73,103 @@ public class Main {
 				break;
 
 			case 2:
-		        System.out.println(" Inserisci il giorno dell'evento...");
+		        System.out.println(ANSI_GREEN + " Inserisci il giorno dell'evento...([0] per uscire dalla ricerca)" + ANSI_RESET);
 		        int giorno = scan.nextInt();
-		        System.out.println(" Inserisci il mese dell'evento...");
+		        if (giorno  == 0) {
+		        	System.out.println(ANSI_GREEN + "ANNULLATO" + ANSI_RESET);
+					break;
+				}
+		        System.out.println(ANSI_GREEN + " Inserisci il mese dell'evento...([0] per uscire dalla ricerca)" + ANSI_RESET);
 		        int mese = scan.nextInt();
-		        System.out.println(" Inserisci l'anno dell'evento...");
+		        if (mese == 0) {
+		        	System.out.println(ANSI_GREEN + "ANNULLATO" + ANSI_RESET);
+					break;
+				}
+		        System.out.println(ANSI_GREEN + " Inserisci l'anno dell'evento...([0] per uscire dalla ricerca)" + ANSI_RESET);
 		        int anno = scan.nextInt();
-		        System.out.println(" Inserisci l'ora dell'evento (Solo le ore, non i minuti)..");
+		        if (anno == 0) {
+		        	System.out.println(ANSI_GREEN + "ANNULLATO" + ANSI_RESET);
+					break;
+				}
+		        System.out.println(ANSI_GREEN + " Inserisci l'ora dell'evento (Solo le ore, non i minuti)...([0] per uscire dalla ricerca)" + ANSI_RESET);
 		        int ore = scan.nextInt();
-		        System.out.println(" Inserisci i minuti dell'evento...");
+		        if (ore == 0) {
+		        	System.out.println(ANSI_GREEN + "ANNULLATO" + ANSI_RESET);
+					break;
+				}
+		        System.out.println(ANSI_GREEN + " Inserisci i minuti dell'evento..." + ANSI_RESET);
 		        int minuti = scan.nextInt();
 		        LocalDateTime dataInserita = LocalDateTime.of(anno, mese, giorno, ore, minuti);
 		        listaEventi.ricercaEventData(dataInserita);
 				break;
 				
 			case 3:
-				System.out.println(" Inserisci il Titolo dell'evento...");
+				System.out.println(ANSI_GREEN + " Inserisci il Titolo dell'evento...([0] per annullare)" + ANSI_RESET);
 				scan.nextLine();
 				String titoloInput = scan.nextLine();
-		        System.out.println(" Inserisci il giorno dell'evento...");
+				if (titoloInput.equals("0")) {
+		        	System.out.println(ANSI_GREEN + "ANNULLATO" + ANSI_RESET);
+					break;
+				}
+		        System.out.println(ANSI_GREEN + " Inserisci il giorno dell'evento...([0] per annullare)" + ANSI_RESET);
 		        int giornoInput = scan.nextInt();
-		        System.out.println(" Inserisci il mese dell'evento...");
+		        if (giornoInput == 0) {
+		        	System.out.println(ANSI_GREEN + "ANNULLATO" + ANSI_RESET);
+					break;
+				}
+		        System.out.println(ANSI_GREEN + " Inserisci il mese dell'evento...([0] per annullare)" + ANSI_RESET);
 		        int meseInput = scan.nextInt();
-		        System.out.println(" Inserisci l'anno dell'evento...");
+		        if (meseInput == 0) {
+		        	System.out.println(ANSI_GREEN + "ANNULLATO" + ANSI_RESET);
+					break;
+				}
+		        System.out.println(ANSI_GREEN + " Inserisci l'anno dell'evento...([0] per annullare)" + ANSI_RESET);
 		        int annoInput = scan.nextInt();
-		        System.out.println(" Inserisci l'ora dell'evento (Solo le ore, non i minuti)..");
+		        if (annoInput == 0) {
+		        	System.out.println(ANSI_GREEN + "ANNULLATO" + ANSI_RESET);
+					break;
+				}
+		        System.out.println(ANSI_GREEN + " Inserisci l'ora dell'evento (Solo le ore, non i minuti)..." + ANSI_RESET);
 		        int oreInput = scan.nextInt();
-		        System.out.println(" Inserisci i minuti dell'evento...");
+		        System.out.println(ANSI_GREEN + " Inserisci i minuti dell'evento..." + ANSI_RESET);
 		        int minutiInput = scan.nextInt();
 		        LocalDateTime dataInseritaInput = LocalDateTime.of(annoInput, meseInput, giornoInput, oreInput, minutiInput);
 		        listaEventi.controlloData(dataInseritaInput);
 		        if (listaEventi.controlloData(dataInseritaInput) == true) {
-					System.err.println("La data inserita è già passata.");
+					System.err.println(ANSI_RED + "La data inserita è già passata." + ANSI_RESET);
 					break;
 				}
-		        System.out.println(" Quanti posti sono disponibili per l'evento? (Solo numero)");
+		        System.out.println(ANSI_GREEN + " Quanti posti sono disponibili per l'evento? (Solo numero)" + ANSI_RESET);
 		        int postiDisponibiliInput = scan.nextInt();
 		        if (postiDisponibiliInput < 1) {
-		        	System.err.println("Inserisci un numero positivo.");
+		        	System.out.println(ANSI_RED + "Inserisci un numero positivo." + ANSI_RESET);
 					break;
 				}
-		        System.out.println(" Quanto costerà il prezzo unitario del biglietto?");
+		        System.out.println(ANSI_GREEN + " Quanto costerà il prezzo unitario del biglietto?" + ANSI_RESET);
 		        double prezzoInput = scan.nextDouble();
 		        if (prezzoInput < 1) {
-		        	System.err.println("Inserisci un numero positivo.");
+		        	System.out.println(ANSI_RED + "Inserisci un numero positivo." + ANSI_RESET);
 					break;
 				}
 				Evento eventoInput = new Concerto(prezzoInput, titoloInput, dataInseritaInput, postiDisponibiliInput);
 				listaEventi.addEvento(eventoInput);
-				System.out.println(" EVENTO AGGIUNTO CON SUCCESSO!");
+				System.out.println(ANSI_GREEN +" EVENTO AGGIUNTO CON SUCCESSO!" + ANSI_RESET);
 				break;
 				
 			case 4:
 				if (listaEventi.eventiTotali() == true) {
 					
-					System.out.println(" Quale evento vuole prenotare? (Inserisci il numero Evento.)");
+					System.out.println(ANSI_GREEN + " Quale evento vuole prenotare? (Inserisci il numero Evento.)" + ANSI_RESET);
 					listaEventi.stampaTitoliEventi();
 					int numeroEvento = scan.nextInt();
 					boolean sceltaEvento = listaEventi.selezionaEvento(numeroEvento);
 					if (sceltaEvento == true) {
-						System.out.println(" Quanti posti vuole prenotare?");
+						System.out.println(ANSI_GREEN + " Quanti posti vuole prenotare?([0] per uscire)" + ANSI_RESET);
 						int postiDaPrenotare = scan.nextInt();
+						if (postiDaPrenotare == 0) {
+				        	System.out.println(ANSI_GREEN + "ANNULLATO" + ANSI_RESET);
+				        	break;
+						}
 						listaEventi.prenotaEventoSelezionato(postiDaPrenotare, numeroEvento);
 						break;
 					}
@@ -140,13 +179,17 @@ public class Main {
 			case 5:
 				if (listaEventi.eventiTotali() == true) {
 					
-					System.out.println(" Quale evento vuole disdire? (Inserisci il numero Evento.)");
+					System.out.println(ANSI_GREEN + " Quale evento vuole disdire? (Inserisci il numero Evento.)" + ANSI_RESET);
 					listaEventi.stampaTitoliEventi();
 					int numeroEventoDaDisdire = scan.nextInt();
 					boolean sceltaEventoDaDisdire = listaEventi.selezionaEvento(numeroEventoDaDisdire);
 					if (sceltaEventoDaDisdire == true) {
-						System.out.println(" Quanti posti vuole disdire?");
+						System.out.println(ANSI_GREEN + " Quanti posti vuole disdire?([0] per annullare)" + ANSI_RESET);
 						int postiDaDisdire = scan.nextInt();
+				        if (postiDaDisdire == 0) {
+				        	System.out.println(ANSI_GREEN + "ANNULLATO" + ANSI_RESET);
+							break;
+						}
 						listaEventi.disdiciEventoSelezionato(postiDaDisdire, numeroEventoDaDisdire);;
 						break;
 					}
@@ -154,12 +197,12 @@ public class Main {
 				break;
 			case 6:
 				listaEventi.svuotaLista();
-				System.out.println("Lista svuotata con successo!");
+				System.out.println(ANSI_GREEN + "Lista svuotata con successo!" + ANSI_RESET);
 				break;
 				
 			case 0:
 				fermaProgramma = true;
-				System.out.println("Arrivederci!");
+				System.out.println(ANSI_YELLOW + "Arrivederci!" + ANSI_RESET);
 				break;
 			}
 		}

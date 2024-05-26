@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 
 public class Concerto extends Evento {
 	
+	
+	
 	 protected double prezzo;
 	
 	 public Concerto() {
@@ -41,6 +43,6 @@ public class Concerto extends Evento {
 	@Override
 	public String toString() {
 		
-		return super.toString() + " - " + "Posti disponibili: " + getNumPostiTot() + " - " + " Prezzo del biglietto unitario: " + getPrezzoToString() ;
+		return super.toString() + " - " + ANSI_GREEN + "Posti disponibili: " + ANSI_YELLOW + getNumPostiTot() + ANSI_RESET +" - " + ANSI_CYAN + " Prezzo del biglietto unitario: " + ANSI_YELLOW + getPrezzoToString() + ANSI_RESET ;
 	}
 }
